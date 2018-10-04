@@ -1,43 +1,59 @@
 import React, { Component } from 'react';
-import {Input, Table, TableHeader, TableRow, TableHeaderCell, TableBody, TableCell,Button,Icon} from 'semantic-ui-react';
-import Control from './Control'
+import {Button,Icon,Form,Dropdown,Checkbox} from 'semantic-ui-react';
+
 class TaskForm extends Component {
     render() {
         return (
-        <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <Control/>
-            <Table celled>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderCell>STT</TableHeaderCell>
-                  <TableHeaderCell>Name</TableHeaderCell>
-                  <TableHeaderCell>Status</TableHeaderCell>
-                  <TableHeaderCell>Action</TableHeaderCell>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell textAlign='center'>Angular</TableCell>
-                  <TableCell style={{justifyContent:'center',display:'flex'}}>
-                    <Button color='instagram'>Active</Button>
-                  </TableCell>
-                  <TableCell >
-                    <Button color='facebook' icon labelPosition='left' >
-                      Edit
-                      <Icon name='edit'></Icon>
-                    </Button>
-                    <Button color='orange'labelPosition='left' icon >
-                      Delete
-                      <Icon name='delete'></Icon>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-        </div>
+          <div>
+            <div className="panel panel-warning"> 
+            <div className="panel-heading">
+              <h3 className="panel-title">
+                Add Job
+                <Icon link name='close' color='red'></Icon>
+              </h3>
+            </div>
+            <div className="panel-body">
+              <Form>
+                <Form.Field>
+                  <label>Name</label>
+                  <input placeholder='Name' />
+                </Form.Field>
+                <Form.Field>
+                  <label>Status</label>
+                  <Dropdown placeholder='Skills' fluid search selection options={options}></Dropdown>
+                </Form.Field>
+                <Form.Field>
+                  <Checkbox label='I agree to the Terms and Conditions' />
+                </Form.Field>
+                <div style={{justifyContent:'center',display:'flex'}}>
+                  <Button content='Submit' color='blue' />
+                  <Button content='Cancel' color='red'  />
+                </div>
+                </Form>
+              </div>
+            </div>
+          </div>
         );
     }
 }
-
+const options = [
+  { key: 'angular', text: 'Angular', value: 'angular' },
+  { key: 'css', text: 'CSS', value: 'css' },
+  { key: 'design', text: 'Graphic Design', value: 'design' },
+  { key: 'ember', text: 'Ember', value: 'ember' },
+  { key: 'html', text: 'HTML', value: 'html' },
+  { key: 'ia', text: 'Information Architecture', value: 'ia' },
+  { key: 'javascript', text: 'Javascript', value: 'javascript' },
+  { key: 'mech', text: 'Mechanical Engineering', value: 'mech' },
+  { key: 'meteor', text: 'Meteor', value: 'meteor' },
+  { key: 'node', text: 'NodeJS', value: 'node' },
+  { key: 'plumbing', text: 'Plumbing', value: 'plumbing' },
+  { key: 'python', text: 'Python', value: 'python' },
+  { key: 'rails', text: 'Rails', value: 'rails' },
+  { key: 'react', text: 'React', value: 'react' },
+  { key: 'repair', text: 'Kitchen Repair', value: 'repair' },
+  { key: 'ruby', text: 'Ruby', value: 'ruby' },
+  { key: 'ui', text: 'UI Design', value: 'ui' },
+  { key: 'ux', text: 'User Experience', value: 'ux' },
+]
 export default TaskForm;
