@@ -3,13 +3,16 @@ import {Button,Icon,Form,Dropdown,Checkbox} from 'semantic-ui-react';
 
 class TaskForm extends Component {
     render() {
+      const {onCloseForm} = this.props
         return (
           <div>
             <div className="panel panel-warning"> 
             <div className="panel-heading">
               <h3 className="panel-title">
                 Add Job
+                <Button icon onClick={onCloseForm}>
                 <Icon link name='close' color='red'></Icon>
+                </Button>
               </h3>
             </div>
             <div className="panel-body">

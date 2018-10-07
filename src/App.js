@@ -1,25 +1,68 @@
 import React, { Component } from 'react';
-import {Header,Icon,Button,Divider,Table,TableHeader
-,TableRow,TableHeaderCell,TableBody,TableCell} from 'semantic-ui-react';
+import {Header,Icon,Button,Divider} from 'semantic-ui-react';
 import Control from './components/Control';
 import './App.css'
 import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDisplayForm: false,
-        
+      tasks : [], // id : unique , name, status
+      isDisplayForm : false,
     }
+  }
+
+  componentWillMount() {
+    if(localStorage && localStorage.getItem('tasks')){
+      var tasks = JSON.parse(localStorage.getItem('tasks'));
+      this.setState({tasks : tasks})
+    }
+    
   }
   onToggleForm = ()=>{
     this.setState({isDisplayForm : !this.state.isDisplayForm})
   }
-  
+
+  onGenerateData(){
+    var tasks = [
+      {
+        id : this.generateID(),
+        name : 'ReactJS',
+        status : true
+      },
+      {
+        id : this.generateID(),
+        name : 'NodeJS',
+        status : true
+      },
+      {
+        id : this.generateID(),
+        name : 'JavaScript',
+        status : false
+      }
+    ];
+    this.setState({
+      tasks : tasks
+    });
+    localStorage.setItem('tasks',JSON.stringify(tasks))
+  }
+
+  s4(){
+    return Math.floor((1+ Math.random())*0x10000 ).toString(16).substring(1);
+  }
+  generateID(){
+    return this.s4() + '-+' +this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4();
+  }
+  onCloseForm = ()=>{
+    this.setState({isDisplayForm:!this.state.isDisplayForm})
+    console.log('onCloseForm');
+  }
   render() {
-    var {isDisplayForm}=this.state;
-    var element = isDisplayForm ? <TaskForm/>:''
+
+    var {isDisplayForm,tasks}=this.state;
+    var element = isDisplayForm ? <TaskForm onCloseForm = {this.onCloseForm}/>:''
     return (
       <div className='container'>
         <div className='container-header' style={{margin:12}}>
@@ -36,38 +79,14 @@ class App extends Component {
                 Adding Jobs
                 <Icon name='plus'></Icon>
               </Button>
+              <Button icon labelPosition='left' color='twitter' onClick={()=>this.onGenerateData()}>
+                Generate Data
+                <Icon name='plus'></Icon>
+              </Button>
             </div>
             <Control/>
-            <Table celled>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderCell>STT</TableHeaderCell>
-                  <TableHeaderCell>Name</TableHeaderCell>
-                  <TableHeaderCell>Status</TableHeaderCell>
-                  <TableHeaderCell>Action</TableHeaderCell>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell textAlign='center'>Angular</TableCell>
-                  <TableCell style={{justifyContent:'center',display:'flex'}}>
-                    <Button color='instagram'>Active</Button>
-                  </TableCell>
-                  <TableCell >
-                    <Button color='facebook' icon labelPosition='left' >
-                      Edit
-                      <Icon name='edit'></Icon>
-                    </Button>
-                    <Button color='orange'labelPosition='left' icon >
-                      Delete
-                      <Icon name='delete'></Icon>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-        </div> 
+            <TaskList tasks={tasks}/>  
+            </div> 
         </div>
       </div>  
     );
