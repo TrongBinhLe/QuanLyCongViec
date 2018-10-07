@@ -10,12 +10,12 @@ class TaskForm extends Component {
             <div className="panel-heading">
               <h3 className="panel-title">
                 Add Job
-                <Button icon onClick={onCloseForm}>
+                <Button icon onClick={onCloseForm} floated={"right"} style = {{marginVertical: 'auto'}}>
                 <Icon link name='close' color='red'></Icon>
                 </Button>
               </h3>
             </div>
-            <div className="panel-body">
+            <div className="panel-body">  
               <Form>
                 <Form.Field>
                   <label>Name</label>
