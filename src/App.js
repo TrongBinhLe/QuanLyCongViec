@@ -59,10 +59,59 @@ class App extends Component {
     this.setState({isDisplayForm:!this.state.isDisplayForm})
     console.log('onCloseForm');
   }
+
+  onSubmit = (data)=>{
+    
+    var {tasks} = this.state
+    var task ={
+       id : this.generateID(),
+       name : data.name,
+       status : data.status
+    }
+    tasks.push(task)
+    this.setState({
+      tasks : tasks 
+    })
+    localStorage.setItem('tasks',JSON.stringify(tasks))
+  }
+  onUpdateStatus = (id)=>{
+    var {tasks}= this.state
+    var index = this.findIndex(id)
+    if(index!== -1){
+      tasks[index].status = ! tasks[index].status
+      this.setState({tasks:tasks})
+      localStorage.setItem('task',JSON.stringify(tasks))
+    }    
+  }
+  onDeleted = (id)=>{
+    var {tasks} = this.state
+    var index = this.findIndex(id)
+
+    if(index!== -1){
+      tasks.splice(index,1)
+      this.setState({tasks:tasks})
+      localStorage.setItem('tasks',JSON.stringify(tasks))  
+    }
+    this.onCloseForm()
+  }
+  
+  findIndex = (id)=>{
+    var {tasks} = this.state ;
+    var result = -1
+    tasks.forEach((task,index)=>{
+      if (task.id === id){
+         result = index;
+      }
+    });
+    return result
+  }
+
   render() {
 
     var {isDisplayForm,tasks}=this.state;
-    var element = isDisplayForm ? <TaskForm onCloseForm = {this.onCloseForm}/>:''
+    var element = isDisplayForm
+          ? <TaskForm onSubmit={this.onSubmit} onCloseForm = {this.onCloseForm}/> 
+          : ''
     return (
       <div className='container'>
         <div className='container-header' style={{margin:12}}>
@@ -85,7 +134,7 @@ class App extends Component {
               </Button>
             </div>
             <Control/>
-            <TaskList tasks={tasks}/>  
+            <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onDeleted={this.onDeleted}/>  
             </div> 
         </div>
       </div>  

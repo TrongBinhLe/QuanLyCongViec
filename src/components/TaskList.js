@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import {Table,TableHeader,TableRow,TableHeaderCell} from 'semantic-ui-react';
 import TaskItem from './TaskItem'
 class TaskList extends Component {
+    
+
     render() {
        const {tasks} = this.props
        var elementItems = tasks.map((task,index)=>{
-        return <TaskItem key={task.id} index={index} task={task}/>
+        return <TaskItem 
+                    key={task.id}
+                    index={index}
+                    task={task}
+                    onUpdateStatus={this.props.onUpdateStatus}
+                    onDeleted = {this.props.onDeleted} />
        });
 
         return (
